@@ -1,28 +1,27 @@
-<template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
-  </div>
+<template lang="pug">
+  #app
+    img(src="./assets/logo.png")
+    Imager
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import Imager from './components/Imager'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Imager
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="stylus">
+@import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css)
+#app
+  font-family 'Noto Sans JP', 'Avenir', Helvetica, Arial, sans-serif
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+  text-align center
+  color #2c3e50
+  margin-top 60px
 </style>
