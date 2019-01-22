@@ -3,8 +3,10 @@
     canvas#canvas.canvas(width="400" height="300")
     .upload
       input(type="file" name="file" id="file" @change="onFileChange")
+    .name
+      input(type="text" name="name" id="mame" v-model="name" @change="onMsgChange")
     .message
-      input(type="text" name="text" id="message" v-model="message" @change="onMsgChange")
+      input(type="text" name="message" id="message" v-model="message" @change="onMsgChange")
     #result
     p aaaaaaaaaaaa
 </template>
@@ -18,9 +20,13 @@ export default {
     }
   },
   props: {
+    name: {
+      type: String,
+      default: 'キャラクター名'
+    },
     message: {
       type: String,
-      default: 'hogehoge'
+      default: 'ここに文章が入ります。ここに文章が入ります。ここに文章が入ります。ここに文章が入ります。ここに文章が入ります。ここに文章が入ります。'
     },
     messageBoxSrc: {
       type: String,
@@ -34,10 +40,10 @@ export default {
   //   }
   // },
   methods: {
-    log () {
-      // console.log(canvas)
-      // console.log(canvasHeight)
-    },
+    // log () {
+    //   // console.log(canvas)
+    //   // console.log(canvasHeight)
+    // },
     // draw () {
     //   this.ctx.beginPath()
     //   this.ctx.clearRect(0, 0, 400, 300)
@@ -82,14 +88,19 @@ export default {
       }
     },
     addText () {
-      this.ctx.fillStyle = '#fdd000'
-      this.ctx.fillRect(10, 10, 140, 30)
-      let fontSize = '100px'
-      this.ctx.font = `bold ${fontSize} 'Noto Sans JP'`
+      let nameFontSize = '20px'
+      let messageFontSize = '50px'
+
       this.ctx.textAlign = 'left'
       this.ctx.textBaseline = 'middle'
+
+      this.ctx.fillStyle = '#FFFFFF'
+      this.ctx.font = `normal ${nameFontSize} 'Noto Sans JP'`
+      this.ctx.fillText(this.name, 20, 25)
+
       this.ctx.fillStyle = '#002B69'
-      this.ctx.fillText(this.message, 80, 25)
+      this.ctx.font = `normal ${messageFontSize} 'Noto Sans JP'`
+      this.ctx.fillText(this.message, 80, 225)
     }
   },
   mounted () {
