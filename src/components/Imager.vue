@@ -22,28 +22,28 @@ export default {
       type: String,
       default: 'hogehoge'
     },
-    src: {
+    messageBoxSrc: {
       type: String,
-      default: 'https://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/uploads/2017/10/canvas_image.jpg'
+      default: 'http://xiv.umee.info/wp-content/uploads/2017/03/fukidashi02.png'
     }
   },
-  watch: {
-    src () {
-      this.loadLocalImage()
-      this.draw()
-    }
-  },
+  // watch: {
+  //   src () {
+  //     this.loadLocalImage()
+  //     this.draw()
+  //   }
+  // },
   methods: {
     log () {
       // console.log(canvas)
       // console.log(canvasHeight)
     },
-    draw () {
-      this.ctx.beginPath()
-      this.ctx.clearRect(0, 0, 400, 300)
-      this.img.src = this.src
-      this.ctx.drawImage(this.img, 0, 0, 400, 300)
-    },
+    // draw () {
+    //   this.ctx.beginPath()
+    //   this.ctx.clearRect(0, 0, 400, 300)
+    //   this.img.src = this.src
+    //   this.ctx.drawImage(this.img, 0, 0, 400, 300)
+    // },
     onFileChange (e) {
       // console.log('onFileChange') //=> ok
       this.fileList = e.target.files || e.dataTransfer.files
@@ -77,14 +77,15 @@ export default {
       image.src = this.img.src
       image.onload = () => {
         this.ctx.drawImage(image, 0, 0, 400, 300)
+        this.ctx.drawImage(this.messageBoxImage, 0, 0, 400, 300)
         this.addText()
       }
     },
     addText () {
       this.ctx.fillStyle = '#fdd000'
       this.ctx.fillRect(10, 10, 140, 30)
-
-      this.ctx.font = "bold 20px 'Noto Sans JP'"
+      let fontSize = '100px'
+      this.ctx.font = `bold ${fontSize} 'Noto Sans JP'`
       this.ctx.textAlign = 'left'
       this.ctx.textBaseline = 'middle'
       this.ctx.fillStyle = '#002B69'
@@ -99,7 +100,8 @@ export default {
 
     // canvas上に画像を表示
     this.img = new Image()
-    this.draw()
+    this.messageBoxImage = new Image()
+    this.messageBoxImage.src = this.messageBoxSrc
   }
 }
 // https://www.tam-tam.co.jp/tipsnote/javascript/post13538.html
