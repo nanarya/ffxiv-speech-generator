@@ -31,7 +31,7 @@ export default {
     },
     messageBoxSrc: {
       type: String,
-      default: '/ffxiv/static/fukidashi02.png'
+      default: 'static/fukidashi02.png'
     }
   },
   mounted () {
@@ -42,7 +42,7 @@ export default {
 
     // canvas上に画像を表示
     this.img = new Image()
-    this.img.src = '/ffxiv/static/default.jpg'
+    this.img.src = 'static/default.jpg'
     this.messageBoxImage = new Image()
     this.messageBoxImage.src = this.messageBoxSrc
     this.canvasDraw()
@@ -168,4 +168,6 @@ li
   margin 0 10px
 a
   color #42b983
+.canvas
+  width 100%
 </style>
