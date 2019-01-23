@@ -2,12 +2,13 @@
   .imager
     canvas#canvas.canvas
     .upload
+      p.inputItem 画像：
       input(type="file" name="file" id="file" @change="onFileChange")
     .name
-      p キャラクター名：
+      p.inputItem キャラクター名：
         input(type="text" name="name" id="mame" v-model="name" @change="onMsgChange")
     .message
-      p セリフ：
+      p.inputItem セリフ：
         textarea(name="example" cols="66" rows="4" v-model="message" @change="onMsgChange")
     #result
     h1 セリフジェネレータ（仮）
@@ -186,4 +187,6 @@ a
   color #42b983
 .canvas
   width 100%
+.inputItem
+  width 10em
 </style>
