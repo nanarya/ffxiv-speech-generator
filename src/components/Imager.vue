@@ -6,7 +6,8 @@
     .name
       input(type="text" name="name" id="mame" v-model="name" @change="onMsgChange")
     .message
-      input(type="text" name="message" id="message" v-model="message" @change="onMsgChange")
+      // input(type="text" name="message" id="message" v-model="message" @change="onMsgChange")
+      textarea(name="example" cols="50" rows="10" v-model="message" @change="onMsgChange")
     #result
     p aaaaaaaaaaaa
 </template>
@@ -22,7 +23,7 @@ export default {
   props: {
     name: {
       type: String,
-      default: 'キャラクター名'
+      default: 'てきすと'
     },
     message: {
       type: String,
@@ -67,17 +68,20 @@ export default {
         return
       }
       this.reader = new FileReader()
-      console.log('this.reader')
-      console.log(this.reader)
+      // console.log('this.reader') // => ok
+      // console.log(this.reader) // => ok
       this.reader.onload = () => {
         // let img = document.createElement('img')
         this.img.src = this.reader.result
-        this.result.appendChild(this.img)
+        console.log(this.img.naturalHeight)
+        // this.result.appendChild(this.img)
         this.canvasDraw()
       }
+      // 読み込みの実行
       this.reader.readAsDataURL(this.fileData)
     },
     canvasDraw () {
+      console.log(this.img.naturalHeight) // => だめ
       this.ctx.clearRect(0, 0, 400, 300)
       let image = new Image()
       image.src = this.img.src
@@ -85,11 +89,18 @@ export default {
         this.ctx.drawImage(image, 0, 0, 400, 300)
         this.ctx.drawImage(this.messageBoxImage, 0, 0, 400, 300)
         this.addText()
+
+        // console.log(this.canvas) // => ok
+        let data = this.canvas.toDataURL()
+        let outputImg = document.createElement('img')
+        outputImg.src = data
+        console.log(data)
+        this.result.appendChild(outputImg)
       }
     },
     addText () {
       let nameFontSize = '20px'
-      let messageFontSize = '50px'
+      let messageFontSize = '20px'
 
       this.ctx.textAlign = 'left'
       this.ctx.textBaseline = 'middle'
@@ -107,12 +118,15 @@ export default {
     this.file = document.getElementById('file')
     this.result = document.getElementById('result')
 
-    this.ctx = this.$el.querySelector('#canvas').getContext('2d')
+    this.canvas = this.$el.querySelector('#canvas')
+    this.ctx = this.canvas.getContext('2d')
 
     // canvas上に画像を表示
     this.img = new Image()
     this.messageBoxImage = new Image()
     this.messageBoxImage.src = this.messageBoxSrc
+    this.img.src = 'https://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/uploads/2017/10/canvas_image.jpg'
+    this.canvasDraw()
   }
 }
 // https://www.tam-tam.co.jp/tipsnote/javascript/post13538.html
