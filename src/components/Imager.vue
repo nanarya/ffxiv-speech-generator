@@ -1,6 +1,6 @@
 <template lang="pug">
   .imager
-    canvas#canvas.canvas(width="400" height="300")
+    canvas#canvas.canvas
     .upload
       input(type="file" name="file" id="file" @change="onFileChange")
     .name
@@ -31,7 +31,7 @@ export default {
     },
     messageBoxSrc: {
       type: String,
-      default: 'http://xiv.umee.info/wp-content/uploads/2017/03/fukidashi02.png'
+      default: '/static/fukidashi02.png'
     }
   },
   // watch: {
@@ -40,19 +40,22 @@ export default {
   //     this.draw()
   //   }
   // },
+  mounted () {
+    this.file = document.getElementById('file')
+    this.result = document.getElementById('result')
+
+    this.canvas = this.$el.querySelector('#canvas')
+    this.ctx = this.canvas.getContext('2d')
+
+    // canvas上に画像を表示
+    this.img = new Image()
+    this.messageBoxImage = new Image()
+    this.messageBoxImage.src = this.messageBoxSrc
+    this.img.src = 'https://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/uploads/2017/10/canvas_image.jpg'
+    this.canvasDraw()
+  },
   methods: {
-    // log () {
-    //   // console.log(canvas)
-    //   // console.log(canvasHeight)
-    // },
-    // draw () {
-    //   this.ctx.beginPath()
-    //   this.ctx.clearRect(0, 0, 400, 300)
-    //   this.img.src = this.src
-    //   this.ctx.drawImage(this.img, 0, 0, 400, 300)
-    // },
     onFileChange (e) {
-      // console.log('onFileChange') //=> ok
       this.fileList = e.target.files || e.dataTransfer.files
       this.loadLocalImage(this.fileList[0])
     },
@@ -60,7 +63,6 @@ export default {
       this.canvasDraw()
     },
     loadLocalImage (file) {
-      // console.log(file) // => ok
       this.fileData = file
 
       if (!this.fileData.type.match('image.*')) {
@@ -68,12 +70,15 @@ export default {
         return
       }
       this.reader = new FileReader()
-      // console.log('this.reader') // => ok
-      // console.log(this.reader) // => ok
-      this.reader.onload = () => {
-        // let img = document.createElement('img')
+      this.reader.onloadend = () => {
+        this.img = new Image()
+        this.img.onload = function () {
+          console.log(this.img)
+        }
         this.img.src = this.reader.result
-        console.log(this.img.naturalHeight)
+        console.log(this.img.naturalWidth)
+
+        // console.log(this.img.naturalHeight)
         // this.result.appendChild(this.img)
         this.canvasDraw()
       }
@@ -81,22 +86,22 @@ export default {
       this.reader.readAsDataURL(this.fileData)
     },
     canvasDraw () {
-      console.log(this.img.naturalHeight) // => だめ
-      this.ctx.clearRect(0, 0, 400, 300)
+      // console.log(this.img.naturalHeight) // => だめ
+      this.ctx.clearRect(0, 0, 300, 150)
       let image = new Image()
-      image.src = this.img.src
       image.onload = () => {
-        this.ctx.drawImage(image, 0, 0, 400, 300)
-        this.ctx.drawImage(this.messageBoxImage, 0, 0, 400, 300)
+        this.ctx.drawImage(image, 0, 0, 300, 150)
+        this.ctx.drawImage(this.messageBoxImage, 0, 0, 300, 150)
         this.addText()
 
         // console.log(this.canvas) // => ok
-        let data = this.canvas.toDataURL()
-        let outputImg = document.createElement('img')
-        outputImg.src = data
-        console.log(data)
-        this.result.appendChild(outputImg)
+        // let data = this.canvas.toDataURL('image/png')
+        // let outputImg = document.createElement('img')
+        // outputImg.src = data
+        // console.log(data)
+        // this.result.appendChild(outputImg)
       }
+      image.src = this.img.src
     },
     addText () {
       let nameFontSize = '20px'
@@ -111,22 +116,8 @@ export default {
 
       this.ctx.fillStyle = '#002B69'
       this.ctx.font = `normal ${messageFontSize} 'Noto Sans JP'`
-      this.ctx.fillText(this.message, 80, 225)
+      this.ctx.fillText(this.message, 80, 100)
     }
-  },
-  mounted () {
-    this.file = document.getElementById('file')
-    this.result = document.getElementById('result')
-
-    this.canvas = this.$el.querySelector('#canvas')
-    this.ctx = this.canvas.getContext('2d')
-
-    // canvas上に画像を表示
-    this.img = new Image()
-    this.messageBoxImage = new Image()
-    this.messageBoxImage.src = this.messageBoxSrc
-    this.img.src = 'https://www.tam-tam.co.jp/tipsnote/wpdata/wp-content/uploads/2017/10/canvas_image.jpg'
-    this.canvasDraw()
   }
 }
 // https://www.tam-tam.co.jp/tipsnote/javascript/post13538.html
