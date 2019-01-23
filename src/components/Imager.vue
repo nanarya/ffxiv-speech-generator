@@ -4,12 +4,25 @@
     .upload
       input(type="file" name="file" id="file" @change="onFileChange")
     .name
-      input(type="text" name="name" id="mame" v-model="name" @change="onMsgChange")
+      p キャラクター名：
+        input(type="text" name="name" id="mame" v-model="name" @change="onMsgChange")
     .message
-      // input(type="text" name="message" id="message" v-model="message" @change="onMsgChange")
-      textarea(name="example" cols="50" rows="10" v-model="message" @change="onMsgChange")
+      p セリフ：
+        textarea(name="example" cols="66" rows="4" v-model="message" @change="onMsgChange")
     #result
+    h1 セリフジェネレータ（仮）
     p このページはβ版です。いろいろきちんとできたら移設します。
+      br
+    hr
+    h2 使い方
+      br
+    ol
+      li 画像を選択してキャラクター名とセリフを入れてください
+      li 右クリックで画像保存できます。
+    h2 現在確認されている不具合
+    ul
+      li 縦長画像に対応していません
+
 </template>
 
 <script>
@@ -169,14 +182,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus">
-h1, h2
-  font-weight normal
-ul
-  list-style-type none
-  padding 0
-li
-  display inline-block
-  margin 0 10px
 a
   color #42b983
 .canvas
