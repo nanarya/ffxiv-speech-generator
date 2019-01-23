@@ -9,7 +9,7 @@
       // input(type="text" name="message" id="message" v-model="message" @change="onMsgChange")
       textarea(name="example" cols="50" rows="10" v-model="message" @change="onMsgChange")
     #result
-    p aaaaaaaaaaaa
+    p このページはβ版です。いろいろきちんとできたら移設します。
 </template>
 
 <script>
