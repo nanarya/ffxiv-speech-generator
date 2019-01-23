@@ -111,7 +111,7 @@ export default {
       this.namePosition = {
         x: this.messageBoxPosition.x + (this.messageBoxPosition.w * 0.08),
         y: this.imageHeight * (737 / 900),
-        size: Math.round(this.imageHeight * 0.023)
+        size: Math.round(this.imageHeight * 0.021)
       }
 
       this.messagePosition = {
@@ -148,7 +148,18 @@ export default {
 
       this.ctx.fillStyle = '#000000'
       this.ctx.font = `normal ${messageFontSize} 'Noto Sans JP'`
-      this.ctx.fillText(this.message, this.messagePosition.x, this.messagePosition.y)
+
+      let lineHeight = 1.4
+      for (var lines = this.message.split('\n'), i = 0, l = lines.length; l > i; i++) {
+        var line = lines[i]
+        var addY = 0
+
+        // 2行目以降の水平位置は行数とlineHeightを考慮する
+        if (i) addY += this.namePosition.size * lineHeight * i
+        this.ctx.fillText(line, this.messagePosition.x, this.messagePosition.y + addY)
+        // context.fillText( line, x + 0, y + addY )
+      }
+      // this.ctx.fillText(this.message, this.messagePosition.x, this.messagePosition.y)
     }
   }
 }
