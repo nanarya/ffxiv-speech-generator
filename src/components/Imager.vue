@@ -2,19 +2,24 @@
   .imager
     canvas#canvas.canvas
     .upload
-      p.inputItem 画像：
-      input(type="file" name="file" id="file" @change="onFileChange")
+      p
+        span.inputName 画像：
+        input.inputArea(type="file" name="file" id="file" @change="onFileChange")
+    hr
     .name
-      p.inputItem キャラクター名：
-        input(type="text" name="name" id="mame" v-model="name" @change="onMsgChange")
+      p
+        span.inputName キャラクター名：
+        input.inputArea(type="text" name="name" id="mame" v-model="name" @change="onMsgChange")
+    hr
     .message
-      p.inputItem セリフ：
-        textarea(name="example" cols="66" rows="4" v-model="message" @change="onMsgChange")
+      p
+        span.inputName セリフ：
+        textarea.inputArea(name="example" cols="66" rows="4" v-model="message" @change="onMsgChange")
+    hr
     #result
     h1 セリフジェネレータ（仮）
     p このページはβ版です。いろいろきちんとできたら移設します。
       br
-    hr
     h2 使い方
       br
     ol
@@ -23,6 +28,9 @@
     h2 現在確認されている不具合
     ul
       li 縦長画像に対応していません
+    hr
+    p 記載されている会社名・製品名・システム名などは、各社の商標、または登録商標です。
+    p Copyright (C) 2010 - 2019 SQUARE ENIX CO., LTD. All Rights Reserved.
 
 </template>
 
@@ -187,6 +195,9 @@ a
   color #42b983
 .canvas
   width 100%
-.inputItem
+.inputName
+  display inline-block
   width 10em
+.inputArea
+  display inline-block
 </style>
