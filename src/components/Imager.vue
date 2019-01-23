@@ -31,7 +31,7 @@ export default {
     },
     messageBoxSrc: {
       type: String,
-      default: '/ffxiv/static/fukidashi02.png' // ここどうしよう？
+      default: 'static/fukidashi02.png' // ここどうしよう？
     }
   },
   mounted () {
@@ -42,7 +42,7 @@ export default {
 
     // canvas上に画像を表示
     this.img = new Image()
-    this.img.src = '/ffxiv/static/default.jpg' // ここどうしよう？
+    this.img.src = 'static/default.jpg' // ここどうしよう？
     this.messageBoxImage = new Image()
     this.messageBoxImage.src = this.messageBoxSrc
     this.canvasDraw()
@@ -94,11 +94,11 @@ export default {
       image.src = this.img.src
     },
     getSize (image) {
-      let width = image.naturalWidth
-      let height = image.naturalHeight
+      // let width = image.naturalWidth
+      // let height = image.naturalHeight
 
-      let ratio = width / height
-      this.imageWidth = Math.min(width, 1000)
+      let ratio = image.naturalWidth / image.naturalHeight
+      this.imageWidth = image.naturalWidth
       this.imageHeight = this.imageWidth / ratio
 
       this.messageBoxPosition = {
@@ -120,20 +120,20 @@ export default {
         size: this.namePosition.size
       }
 
-      console.log('=====================')
-      console.log(this.namePosition.size)
-      console.log('=====================')
+      // console.log('=====================')
+      // console.log(this.namePosition.size)
+      // console.log('=====================')
 
-      console.log(ratio)
-      console.log(this.imageWidth)
-      console.log(this.imageHeight)
+      // console.log(ratio)
+      // console.log(this.imageWidth)
+      // console.log(this.imageHeight)
 
-      console.log('this.messageBoxPosition')
-      console.log(this.messageBoxPosition)
-      console.log('this.namePosition')
-      console.log(this.namePosition)
-      console.log('this.messagePosition')
-      console.log(this.messagePosition)
+      // console.log('this.messageBoxPosition')
+      // console.log(this.messageBoxPosition)
+      // console.log('this.namePosition')
+      // console.log(this.namePosition)
+      // console.log('this.messagePosition')
+      // console.log(this.messagePosition)
     },
     addText () {
       let nameFontSize = this.namePosition.size + 'px'
@@ -149,13 +149,13 @@ export default {
       this.ctx.fillStyle = '#000000'
       this.ctx.font = `normal ${messageFontSize} 'Noto Sans JP'`
 
-      let lineHeight = 1.4
+      const LINE_HEIGHT = 1.4
       for (var lines = this.message.split('\n'), i = 0, l = lines.length; l > i; i++) {
-        var line = lines[i]
-        var addY = 0
+        let line = lines[i]
+        let addY = 0
 
         // 2行目以降の水平位置は行数とlineHeightを考慮する
-        if (i) addY += this.namePosition.size * lineHeight * i
+        if (i) addY += this.namePosition.size * LINE_HEIGHT * i
         this.ctx.fillText(line, this.messagePosition.x, this.messagePosition.y + addY)
         // context.fillText( line, x + 0, y + addY )
       }
