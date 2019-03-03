@@ -1,12 +1,13 @@
 <template lang="pug">
   .imager
     .info
-      h1 セリフジェネレータ
+      h1 FFXIV セリフジェネレーター
       h2 使い方
         br
       ol
         li 画像を選択してキャラクター名とセリフを入れてください
         li 右クリックで画像保存できます。
+    hr
     .upload
       p
         span.inputName 画像：
