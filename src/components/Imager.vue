@@ -1,6 +1,12 @@
 <template lang="pug">
   .imager
-    canvas#canvas.canvas
+    .info
+      h1 セリフジェネレータ
+      h2 使い方
+        br
+      ol
+        li 画像を選択してキャラクター名とセリフを入れてください
+        li 右クリックで画像保存できます。
     .upload
       p
         span.inputName 画像：
@@ -9,29 +15,37 @@
     .name
       p
         span.inputName キャラクター名：
-        input.inputArea(type="text" name="name" id="mame" v-model="name" @change="onMsgChange")
+        input.inputArea(type="text" name="name" id="name" v-model="name" @change="canvasDraw")
     hr
     .message
       p
         span.inputName セリフ：
-        textarea.inputArea(name="example" cols="66" rows="4" v-model="message" @change="onMsgChange")
+        textarea.inputArea(name="message" cols="66" rows="4" v-model="message" @change="canvasDraw")
     hr
+    .cursol
+      p
+        span.inputName カーソル：
+        input.inputArea(type="checkbox" name="cursol" v-model="messageBoxSrc" true-value="static/fukidashi02.png" false-value="static/fukidashi01.png" @change="onCursolChange")
+    hr
+    .copyright
+      p
+        span.inputName コピーライト：
+        textarea.inputArea(name="copyright" cols="66" rows="1" v-model="copyright" @change="canvasDraw")
+      p
+        span.inputName ON/OFF：
+        input.inputArea(type="checkbox" name="cursol" v-model="copyrightFlg" @change="onCursolChange")
+    .no-display
+      img(src="static/fukidashi01.png")
+      img(src="static/fukidashi02.png")
     #result
-    h1 セリフジェネレータ（仮）
-    p このページはβ版です。いろいろきちんとできたら移設します。
-      br
-    h2 使い方
-      br
-    ol
-      li 画像を選択してキャラクター名とセリフを入れてください
-      li 右クリックで画像保存できます。
-    h2 現在確認されている不具合
-    ul
-      li 縦長画像に対応していません
-    hr
-    p 記載されている会社名・製品名・システム名などは、各社の商標、または登録商標です。
-    p Copyright (C) 2010 - 2019 SQUARE ENIX CO., LTD. All Rights Reserved.
 
+    canvas#canvas.canvas
+    .copyright
+      hr
+      p フキダシ素材は xxxxx よりお借りいたしました。
+      hr
+      p 記載されている会社名・製品名・システム名などは、各社の商標、または登録商標です。
+      p Copyright (C) 2010 - 2019 SQUARE ENIX CO., LTD. All Rights Reserved.
 </template>
 
 <script>
@@ -39,7 +53,8 @@ export default {
   name: 'Imager',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      messageBoxSrc: 'static/fukidashi02.png',
+      copyrightFlg: false
     }
   },
   props: {
@@ -51,9 +66,9 @@ export default {
       type: String,
       default: 'がおー！'
     },
-    messageBoxSrc: {
+    copyright: {
       type: String,
-      default: 'static/fukidashi02.png' // ここどうしよう？
+      default: 'Copyright (C) 2010 - 2019 SQUARE ENIX CO., LTD. All Rights Reserved.'
     }
   },
   mounted () {
@@ -74,9 +89,12 @@ export default {
       this.fileList = e.target.files || e.dataTransfer.files
       this.loadLocalImage(this.fileList[0])
     },
-    onMsgChange () {
+
+    onCursolChange () {
+      this.messageBoxImage.src = this.messageBoxSrc
       this.canvasDraw()
     },
+
     loadLocalImage (fileData) {
       if (!fileData.type.match('image.*')) {
         alert('画像を選択してください')
@@ -93,6 +111,7 @@ export default {
       // 読み込みの実行
       this.reader.readAsDataURL(fileData)
     },
+
     canvasDraw () {
       let image = new Image()
       image.onload = () => {
@@ -112,9 +131,11 @@ export default {
           this.messageBoxPosition.h
         )
         this.addText()
+        this.addCopyright()
       }
       image.src = this.img.src
     },
+
     getSize (image) {
       // let width = image.naturalWidth
       // let height = image.naturalHeight
@@ -126,8 +147,13 @@ export default {
       this.messageBoxPosition = {
         x: (this.imageWidth / 2) - (this.imageHeight * (180 / 900) * (657 / 158) / 2),
         y: this.imageHeight * (715 / 900),
-        w: this.imageHeight * (180 / 900) * (657 / 158),
+        w: this.imageHeight * (180 / 900) * (657 / 158), // 画像サイズ
         h: this.imageHeight * (180 / 900)
+      }
+
+      if (this.messageBoxPosition.w > this.imageWidth) { // 縦長画像対応
+        this.messageBoxPosition.x = this.imageWidth * 0.05
+        this.messageBoxPosition.w = this.imageWidth * 0.9
       }
 
       this.namePosition = {
@@ -157,6 +183,7 @@ export default {
       // console.log('this.messagePosition')
       // console.log(this.messagePosition)
     },
+
     addText () {
       let nameFontSize = this.namePosition.size + 'px'
       let messageFontSize = this.messagePosition.size + 'px'
@@ -182,10 +209,25 @@ export default {
         // context.fillText( line, x + 0, y + addY )
       }
       // this.ctx.fillText(this.message, this.messagePosition.x, this.messagePosition.y)
+    },
+
+    addCopyright () {
+      if (this.copyrightFlg) {
+        let copyFontSize = this.imageHeight * (10 / 900) + 'px'
+
+        this.ctx.textAlign = 'left'
+        this.ctx.textBaseline = 'middle'
+
+        this.ctx.fillStyle = '#000000'
+        this.ctx.font = `normal ${copyFontSize} 'Noto Sans JP'`
+        this.ctx.fillText(this.copyright, 11, this.imageHeight * 0.99 + 1)
+
+        this.ctx.fillStyle = '#FFFFFF'
+        this.ctx.fillText(this.copyright, 10, this.imageHeight * 0.99)
+      }
     }
   }
 }
-// https://www.tam-tam.co.jp/tipsnote/javascript/post13538.html
 
 </script>
 
@@ -194,10 +236,13 @@ export default {
 a
   color #42b983
 .canvas
-  width 100%
+  max-width 100%
 .inputName
   display inline-block
   width 10em
+  text-align right
 .inputArea
   display inline-block
+.no-display
+  display none
 </style>
