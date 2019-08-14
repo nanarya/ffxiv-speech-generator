@@ -85,7 +85,7 @@ export default {
 
     // canvas上に画像を表示
     this.img = new Image()
-    this.img.src =  'static/default.jpg'
+    this.img.src = 'static/default.jpg'
     this.messageBoxImage = new Image()
     this.messageBoxImage.src = this.messageBoxSrc
     this.canvasDraw()
