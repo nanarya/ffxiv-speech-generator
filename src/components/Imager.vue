@@ -2,44 +2,40 @@
   .imager
     .info
       h1 FFXIV セリフジェネレーター
-      h2 使い方
-        br
-      ol
-        li 画像を選択してキャラクター名とセリフを入れてください
-        li 右クリックで画像保存できます。
-    hr
-    .upload
-      p
-        span.inputName 画像：
-        input.inputArea(type="file" name="file" id="file" @change="onFileChange")
-    hr
-    .name
-      p
-        span.inputName キャラクター名：
-        input.inputArea(type="text" name="name" id="name" v-model="name" @change="canvasDraw")
-    hr
-    .message
-      p
-        span.inputName セリフ：
-        textarea.inputArea(name="message" cols="66" rows="4" v-model="message" @change="canvasDraw")
-    hr
-    .cursol
-      p
-        span.inputName カーソル：
-        input.inputArea(type="checkbox" name="cursol" v-model="messageBoxSrc" true-value="static/fukidashi02.png" false-value="static/fukidashi01.png" @change="onCursolChange")
-    hr
-    .copyright
-      p
-        span.inputName コピーライト：
-        textarea.inputArea(name="copyright" cols="66" rows="1" v-model="copyright" @change="canvasDraw")
-      p
-        span.inputName ON/OFF：
-        input.inputArea(type="checkbox" name="cursol" v-model="copyrightFlg" @change="onCursolChange")
+    h2 設定するところ
+    .setting
+      .upload
+        p
+          span.inputName 画像：
+          input.inputArea(type="file" name="file" id="file" @change="onFileChange")
+      hr
+      .name
+        p
+          span.inputName キャラクター名：
+          input.inputArea(type="text" name="name" id="name" v-model="name" @change="canvasDraw")
+      hr
+      .message
+        p
+          span.inputName セリフ：
+          textarea.inputArea(name="message" cols="66" rows="4" v-model="message" @change="canvasDraw")
+      hr
+      .cursol
+        p
+          span.inputName カーソル：
+          input.inputArea(type="checkbox" name="cursol" v-model="messageBoxSrc" true-value="static/fukidashi02.png" false-value="static/fukidashi01.png" @change="onCursolChange")
+      hr
+      .copyright
+        p
+          span.inputName コピーライト：
+          textarea.inputArea(name="copyright" cols="66" rows="1" v-model="copyright" @change="canvasDraw")
+        p
+          span.inputName ON/OFF：
+          input.inputArea(type="checkbox" name="cursol" v-model="copyrightFlg" @change="onCursolChange")
     .no-display
       img(src="static/fukidashi01.png")
       img(src="static/fukidashi02.png")
     #result
-
+    h2 できあがり
     canvas#canvas.canvas
 
     .download
@@ -49,7 +45,7 @@
     .copyright
       hr
       p フキダシ素材は xxxxx よりお借りいたしました。
-      hr
+      //- hr
       //- p 記載されている会社名・製品名・システム名などは、各社の商標、または登録商標です。
       //- p Copyright (C) 2010 - 2019 SQUARE ENIX CO., LTD. All Rights Reserved.
 </template>
@@ -66,11 +62,11 @@ export default {
   props: {
     name: {
       type: String,
-      default: ''
+      default: 'りゅーさん'
     },
     message: {
       type: String,
-      default: ''
+      default: 'リミットブレイク！！！'
     },
     copyright: {
       type: String,
@@ -85,7 +81,7 @@ export default {
 
     // canvas上に画像を表示
     this.img = new Image()
-    this.img.src = 'static/default.jpg'
+    this.img.src = 'static/fantasy_ryuukishi.png'
     this.messageBoxImage = new Image()
     this.messageBoxImage.src = this.messageBoxSrc
     this.canvasDraw()
@@ -276,6 +272,10 @@ export default {
   text-decoration none
   &:hover
     opacity 0.7
+
+.setting
+  border 1px solid #ccc
+  padding: 20px
 
 .inputName
   display inline-block
