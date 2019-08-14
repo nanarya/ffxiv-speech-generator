@@ -41,12 +41,17 @@
     #result
 
     canvas#canvas.canvas
+
+    .download
+      a.button#downloadButton(@click="download")
+        |ダウンロードボタン
+
     .copyright
       hr
       p フキダシ素材は xxxxx よりお借りいたしました。
       hr
-      p 記載されている会社名・製品名・システム名などは、各社の商標、または登録商標です。
-      p Copyright (C) 2010 - 2019 SQUARE ENIX CO., LTD. All Rights Reserved.
+      //- p 記載されている会社名・製品名・システム名などは、各社の商標、または登録商標です。
+      //- p Copyright (C) 2010 - 2019 SQUARE ENIX CO., LTD. All Rights Reserved.
 </template>
 
 <script>
@@ -61,11 +66,11 @@ export default {
   props: {
     name: {
       type: String,
-      default: 'おひげ'
+      default: ''
     },
     message: {
       type: String,
-      default: 'がおー！'
+      default: ''
     },
     copyright: {
       type: String,
@@ -80,7 +85,7 @@ export default {
 
     // canvas上に画像を表示
     this.img = new Image()
-    this.img.src = 'static/default.jpg' // ここどうしよう？
+    this.img.src =  'static/default.jpg'
     this.messageBoxImage = new Image()
     this.messageBoxImage.src = this.messageBoxSrc
     this.canvasDraw()
@@ -226,6 +231,30 @@ export default {
         this.ctx.fillStyle = '#FFFFFF'
         this.ctx.fillText(this.copyright, 10, this.imageHeight * 0.99)
       }
+    },
+
+    download () {
+      // secret special thanks: https://croagunk.github.io/FFXIV-Boss-Subtitle-Generator/
+      let canvas = document.getElementById('canvas')
+      let base64 = canvas.toDataURL()
+      let blob = this.base64toBlob(base64)
+      let a = document.getElementById('downloadButton')
+      let filename = `xivserif_${(new Date()).getTime()}.png`
+
+      a.href = window.URL.createObjectURL(blob)
+      a.download = filename
+      // a.click()
+    },
+    base64toBlob (base64) {
+      let tmp = base64.split(',')
+      let data = atob(tmp[1])
+      let mime = tmp[0].split(':')[1].split(';')[0]
+      let buf = new Uint8Array(data.length)
+      for (let i = 0; i < data.length; i++) {
+        buf[i] = data.charCodeAt(i)
+      }
+      let blob = new Blob([buf], { type: mime })
+      return blob
     }
   }
 }
@@ -234,10 +263,20 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus">
-a
-  color #42b983
 .canvas
   max-width 100%
+.download
+  padding 20px 0
+.button
+  background-color: #E11
+  padding 10px
+  color #fff
+  font-weight bold
+  cursor pointer
+  text-decoration none
+  &:hover
+    opacity 0.7
+
 .inputName
   display inline-block
   width 10em
