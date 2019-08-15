@@ -12,12 +12,12 @@
       .name
         p
           span.inputName キャラクター名：
-          input.inputArea(type="text" name="name" id="name" v-model="name" @change="canvasDraw")
+          input.inputArea.-text(type="text" name="name" id="name" v-model="name" @change="canvasDraw")
       hr
       .message
         p
           span.inputName セリフ：
-          textarea.inputArea(name="message" cols="66" rows="4" v-model="message" @change="canvasDraw")
+          textarea.inputArea.-text(name="message" rows="3" v-model="message" @change="canvasDraw")
       hr
       .cursol
         p
@@ -27,7 +27,7 @@
       .copyright
         p
           span.inputName コピーライト：
-          textarea.inputArea(name="copyright" cols="66" rows="1" v-model="copyright" @change="canvasDraw")
+          textarea.inputArea.-text(name="copyright" v-model="copyright" @change="canvasDraw")
         p
           span.inputName ON/OFF：
           input.inputArea(type="checkbox" name="cursol" v-model="copyrightFlg" @change="onCursolChange")
@@ -259,6 +259,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="stylus">
+h1
+  @media screen and (max-width: 767px)
+    font-size 7vw
+h2
+  @media screen and (max-width: 767px)
+    font-size 6vw
+
 .canvas
   max-width 100%
 .download
@@ -278,11 +285,19 @@ export default {
   padding: 20px
 
 .inputName
-  display inline-block
-  width 10em
-  text-align right
+  @media screen and (min-width: 768px)
+    text-align right
+    display inline-block
+    width 10em
+  @media screen and (max-width: 767px)
+    display block
+
 .inputArea
   display inline-block
+  &.-text
+    width 100%
+    max-width 66em
+    border 1px solid #ccc
 .no-display
   display none
 </style>
