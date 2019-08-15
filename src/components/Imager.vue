@@ -7,7 +7,7 @@
       .upload
         p
           span.inputName 画像：
-          input.inputArea(type="file" name="file" id="file" @change="onFileChange")
+          input.inputArea.-image(type="file" name="file" id="file" @change="onFileChange")
       hr
       .name
         p
@@ -42,12 +42,18 @@
       a.button#downloadButton(@click="download")
         |ダウンロードボタン
 
-    .copyright
+    .footer
       hr
       p フキダシ素材は xxxxx よりお借りいたしました。
-      //- hr
-      //- p 記載されている会社名・製品名・システム名などは、各社の商標、または登録商標です。
-      //- p Copyright (C) 2010 - 2019 SQUARE ENIX CO., LTD. All Rights Reserved.
+      p
+        |記載されている会社名・製品名・システム名などは、各社の商標、または登録商標です。
+        br
+        |Copyright (C) 2010 - 2019 SQUARE ENIX CO., LTD. All Rights Reserved.
+      p
+        |ご意見ご要望は
+        a(href="https://twitter.com/kid_nanarya/")
+          |@kid_nanarya
+        |まで
 </template>
 
 <script>
@@ -300,4 +306,7 @@ h2
     border 1px solid #ccc
 .no-display
   display none
+
+.footer
+  font-size 0.8rem
 </style>
