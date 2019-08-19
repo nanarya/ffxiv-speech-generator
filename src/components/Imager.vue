@@ -17,7 +17,7 @@
       .message
         p
           span.inputName セリフ：
-          textarea.inputArea.-text(name="message" rows="3" v-model="message" @change="canvasDraw")
+          textarea.inputArea.-text.-serif(name="message" v-model="message" @change="canvasDraw")
       hr
       .cursol
         p
@@ -44,7 +44,11 @@
 
     .footer
       hr
-      p フキダシ素材は xxxxx よりお借りいたしました。
+      p IEは動きません。ボタンを押しても直接DLされない場合は、表示された画像を右クリック/長押しなどをしてみてください。
+      p
+        |フキダシ素材は
+        a(href="http://xiv.umee.info/material-01/" target="_blank") こちら
+        |よりお借りいたしました。
       p
         |記載されている会社名・製品名・システム名などは、各社の商標、または登録商標です。
         br
@@ -292,7 +296,7 @@ h2
 
 .inputName
   @media screen and (min-width: 768px)
-    text-align right
+    // text-align right
     display inline-block
     width 10em
   @media screen and (max-width: 767px)
@@ -300,10 +304,13 @@ h2
 
 .inputArea
   display inline-block
+  font-size 1rem
   &.-text
     width 100%
     max-width 66em
     border 1px solid #ccc
+  &.-serif
+    min-height 4em
 .no-display
   display none
 
