@@ -1,7 +1,7 @@
 <template lang="pug">
   .imager
     .info
-      h1 FFXIV セリフジェネレーター
+      h1 FF14 セリフジェネレータ
     h2 設定するところ
     .setting
       .upload
@@ -59,6 +59,10 @@
           |@kid_nanarya
         |まで
       p
+        |ハッシュタグはこちら
+        a(href="https://twitter.com/search?q=%23FF14%E3%82%BB%E3%83%AA%E3%83%95%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AC%E3%83%BC%E3%82%BF" target="_blank")
+          |#FF14セリフジェネレータ
+      //- p
         //- a.twitter-share-button(href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-show-count="false") Tweet
         //- <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </template>
