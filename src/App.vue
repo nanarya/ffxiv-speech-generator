@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import url(http://fonts.googleapis.com/earlyaccess/notosansjp.css)
+@import url(https://fonts.googleapis.com/earlyaccess/notosansjp.css)
 #app
   font-family 'Noto Sans JP', 'Avenir', Helvetica, Arial, sans-serif
   -webkit-font-smoothing antialiased
