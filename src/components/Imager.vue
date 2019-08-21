@@ -18,6 +18,9 @@
         p
           span.inputName セリフ：
           textarea.inputArea.-text.-serif(name="message" v-model="message" @change="canvasDraw")
+        p
+          span.inputName 巨大化：
+          input.inputArea(type="checkbox" name="cursol" v-model="messageBigFlg" @change="canvasDraw")
       hr
       .cursol
         p
@@ -62,9 +65,9 @@
         |ハッシュタグはこちら
         a(href="https://twitter.com/search?q=%23FF14%E3%82%BB%E3%83%AA%E3%83%95%E3%82%B8%E3%82%A7%E3%83%8D%E3%83%AC%E3%83%BC%E3%82%BF" target="_blank")
           |#FF14セリフジェネレータ
-      //- p
-        //- a.twitter-share-button(href="https://twitter.com/share?ref_src=twsrc%5Etfw" data-show-count="false") Tweet
-        //- <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      p
+        a.twitter-share-button(href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-via="kid_nanarya" data-hashtags="FF14セリフジェネレータ" data-show-count="false") SHARE
+
 </template>
 
 <script>
@@ -73,6 +76,7 @@ export default {
   data () {
     return {
       messageBoxSrc: 'static/fukidashi02.png',
+      messageBigFlg: false,
       copyrightFlg: false
     }
   },
@@ -206,16 +210,20 @@ export default {
     addText () {
       let nameFontSize = this.namePosition.size + 'px'
       let messageFontSize = this.messagePosition.size + 'px'
+      if (this.messageBigFlg) {
+        messageFontSize = this.messagePosition.size * 3 + 'px'
+        this.messagePosition.y = this.imageHeight * (805 / 900)
+      }
 
       this.ctx.textAlign = 'left'
       this.ctx.textBaseline = 'middle'
 
       this.ctx.fillStyle = '#FFFFFF'
-      this.ctx.font = `normal ${nameFontSize} 'Noto Sans JP'`
+      this.ctx.font = `500 ${nameFontSize} 'Noto Sans JP'`
       this.ctx.fillText(this.name, this.namePosition.x, this.namePosition.y)
 
       this.ctx.fillStyle = '#000000'
-      this.ctx.font = `normal ${messageFontSize} 'Noto Sans JP'`
+      this.ctx.font = `500 ${messageFontSize} 'Noto Sans JP'`
 
       const LINE_HEIGHT = 1.4
       for (var lines = this.message.split('\n'), i = 0, l = lines.length; l > i; i++) {
@@ -252,7 +260,7 @@ export default {
       let base64 = canvas.toDataURL()
       let blob = this.base64toBlob(base64)
       let a = document.getElementById('downloadButton')
-      let filename = `xivserif_${(new Date()).getTime()}.png`
+      let filename = `xivspeech_${(new Date()).getTime()}.png`
 
       a.href = window.URL.createObjectURL(blob)
       a.download = filename
