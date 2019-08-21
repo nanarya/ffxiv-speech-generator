@@ -219,7 +219,7 @@ export default {
       this.ctx.textBaseline = 'middle'
 
       this.ctx.fillStyle = '#FFFFFF'
-      this.ctx.font = `500 ${nameFontSize} 'Noto Sans JP'`
+      this.ctx.font = `normal ${nameFontSize} 'Noto Sans JP'`
       this.ctx.fillText(this.name, this.namePosition.x, this.namePosition.y)
 
       this.ctx.fillStyle = '#000000'
